@@ -8,7 +8,7 @@ LD2410 is a high-sensitivity 24GHz human presence status sensing moduledeveloped
 
 The project combines a 
 - LD2410 module
-- ESP32 C3 Wemos module
+- ESP32 D1 Mini NodeMCU module
 - DS18B20 - digital temperature sensor
 - LDR - as a light sensor
 - Status LED
@@ -35,13 +35,8 @@ Please download the whole project and open it direktly in Visual Studio Code.
 PlatformIO Extension is necessary.
 
 
-Hint: OneWire project didn't work for me
-It was necessary to update file
-  #  OneWire_direct_gpio.h
-@ line 160
-with
-  # #include <soc/gpio_struct.h>
-
+> [!TIP]
+> OneWire project didn't work for me. It was necessary to update file "OneWire_direct_gpio.h" with "#include <soc/gpio_struct.h>"
 
 
 ## further informations
