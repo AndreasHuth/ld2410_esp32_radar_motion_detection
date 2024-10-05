@@ -19,7 +19,8 @@ A special PCB was developed for the electronics (please contact me if you have a
 https://github.com/AndreasHuth/ld2410_esp32_radar_motion_detection/tree/master/schematic
 
 To use the motion sensor, I have configured a corresponding holder. 
-There is a cover to protect the electronics and create a nice look. 
+There is a cover to protect the electronics and create a nice look.
+STL files can be found here: 
 https://github.com/AndreasHuth/ld2410_esp32_radar_motion_detection/tree/master/3D_models
 
 ![](https://github.com/AndreasHuth/ld2410_esp32_radar_motion_detection/blob/master/3D_models/Screenshot%202024-10-05%20150717.png)
@@ -35,7 +36,7 @@ Please download the whole project and open it direktly in Visual Studio Code.
 PlatformIO Extension is necessary.
 
 
-> [!TIP]
+> [!WARNING]
 > OneWire project didn't work for me. It was necessary to update file "OneWire_direct_gpio.h" with "#include <soc/gpio_struct.h>"
 
 
