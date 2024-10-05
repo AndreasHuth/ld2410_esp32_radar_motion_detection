@@ -41,12 +41,12 @@ PlatformIO Extension is necessary.
 
 ## further informations
 Needed packages:
-  paulstoffregen/OneWire @ ^2.3.8
-  milesburton/DallasTemperature @ ^3.11.0
-  tzapu/WiFiManager @ ^2.0.17
-  bblanchon/ArduinoJson @ 5.13.4
-  knolleary/PubSubClient @ ^2.8
-  ncmreynolds/ld2410 @ ^0.1.4
+  - paulstoffregen/OneWire @ ^2.3.8
+  - milesburton/DallasTemperature @ ^3.11.0
+  - tzapu/WiFiManager @ ^2.0.17
+  - bblanchon/ArduinoJson @ 5.13.4
+  - knolleary/PubSubClient @ ^2.8
+  - ncmreynolds/ld2410 @ ^0.1.4
 
 ## Links
 na.
