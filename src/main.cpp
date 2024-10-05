@@ -1,11 +1,21 @@
 #include <Arduino.h>
+// #include "hal/gpio_ll.h"
+
 #include <ld2410.h>
 ld2410 radar;
 
 #include <HardwareSerial.h>
 HardwareSerial SerialPort(2); // if using UART2
 
-// #include <OneWire.h>
+/*
+  Hint: OneWire project didnt work for me
+  It was necessary to update file
+    >  OneWire_direct_gpio.h
+  @ line 160
+  with
+    > #include <soc/gpio_struct.h>
+*/
+#include <OneWire.h>
 #include <DallasTemperature.h>
 
 // GPIO where the DS18B20 is connected to
@@ -78,7 +88,7 @@ int light = 0;
 int count = 0;
 float temperature = 0;
 
-void getTemp()
+void getTemp(void)
 {
   // call sensors.requestTemperatures() to issue a global temperature
   // request to all devices on the bus
@@ -417,11 +427,11 @@ String prepareHtmlPage(void)
   htmlPage += "<br> <br>";
 
   htmlPage += "MQTT Server      : ";
-  htmlPage += MQTT_SERVER; //
+  htmlPage += mqtt_server; //
   htmlPage += "<br>";      // "<br>" erschafft eine Leerzeile (bzw. definiert das Ende einer Zeile)
 
   htmlPage += "MQTT Port        : ";
-  htmlPage += MQTT_PORT; //
+  htmlPage += mqtt_port; //
   htmlPage += "<br>";    // "<br>" erschafft eine Leerzeile (bzw. definiert das Ende einer Zeile)
 
   htmlPage += "MQTT Client Name : ";
@@ -468,7 +478,7 @@ String prepareHtmlPage(void)
 
 void webServer(void)
 {
-  WiFiClient client = server.available();
+  WiFiClient client = server.accept();
   // wait for a client (web browser) to connect
   if (client)
   {
@@ -507,7 +517,6 @@ void webServer(void)
 /*
 MOTION
 */
-
 bool get_motion(void)
 {
   if (digitalRead(SENSOR_PIN))
@@ -516,13 +525,28 @@ bool get_motion(void)
     return false;
 }
 
+void get_data(void)
+{
+  config = bool(digitalRead(CONFIG_PIN));
+  Serial.print("Config:");
+  Serial.println(config);
+
+  light = analogRead(LDR_PIN);
+  Serial.print("Light:");
+  Serial.println(light);
+  client.publish(pub_light, String(light).c_str());
+
+  getTemp();
+  Serial.println();
+}
+
 void loop()
 {
   static long lastTransferTime = 0;
 
   static long lastReading = 0;
   static long lastMotion = 0;
-  
+
   static long lastLEDTime = 0;
   static long lastCheckTime = 0;
 
@@ -552,6 +576,7 @@ void loop()
     lastTransferTime = millis();
     startup = false;
     client.publish(pub_alive, "Hello World!");
+    get_data();
   }
 
   ////////////////////////////////////////////////////////////////////////
@@ -574,21 +599,11 @@ void loop()
   }
 
   ////////////////////////////////////////////////////////////////////////
-  // Control state maschine :-)
+  // Control state machine :-)
   if (millis() - lastCheckTime > (INTERVAL2))
-  { // tbd sec
+  {
     lastCheckTime = millis();
-    config = bool(digitalRead(CONFIG_PIN));
-    Serial.print("Config:");
-    Serial.println(config);
-
-    light = analogRead(LDR_PIN);
-    Serial.print("Light:");
-    Serial.println(light);
-    client.publish(pub_light, String(light).c_str());
-
-    getTemp();
-    Serial.println();
+    get_data();
   }
 
   ////////////////////////////////////////////////////////////////////////
@@ -602,7 +617,7 @@ void loop()
     lastMotion = millis();
     Serial.print("Motion  : ");
     Serial.println(motion);
-    Serial.println(millis());
+    // Serial.println(millis());
     if (motion)
     {
       digitalWrite(EXTERNAL_LED, HIGH);
