@@ -7,7 +7,7 @@ Sensor product description (source: https://hlktech.net/index.php?id=988):
 LD2410 is a high-sensitivity 24GHz human presence status sensing moduledeveloped by Hi-link. Its working principle is to use FMCW frequency-modulated continuous waves to detect human targets in the set space. Combined with radar signal processing and precise human body sensing algorithms, it realizes high-sensitivity human presence status sensing, and can identify human bodies in motion and stationary states. And auxiliary information such as the distance of the target can be calculated.
 
 The project combines a 
-> LD2410 
+> LD2410 module
 > ESP32 C3 Wemos module
 > DS18B20 - digital temperature sensor
 > LDR - as a light sensor
@@ -15,8 +15,13 @@ The project combines a
 
 The motion sensor is supplied with power via the USB port of the ESP32 module.
 
+A special PCB was developed for the electronics (please contact me if you have any questions). The circuit diagram can also be found here:
+https://github.com/AndreasHuth/ld2410_esp32_radar_motion_detection/tree/master/schematic
 
+To use the motion sensor, I have configured a corresponding holder. 
+There is a cover to protect the electronics and create a nice look. 
 
+https://github.com/AndreasHuth/ld2410_esp32_radar_motion_detection/tree/master/schematic
 
 
 But there some special topics (at least for me 😊)
